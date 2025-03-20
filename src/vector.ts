@@ -1,31 +1,19 @@
 import { StyleFunction } from 'ol/style/Style';
 import { DOMWidgetModel, ISerializers } from '@jupyter-widgets/base';
-import 'ol/ol.css';
 import { MODULE_NAME, MODULE_VERSION } from './version';
-import '../css/widget.css';
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style.js';
 import { Vector as VectorSource } from 'ol/source.js';
 import { Vector as VectorLayer  } from 'ol/layer.js';
 import { LayerModel, LayerView  } from './layer';
+import 'ol/ol.css';
+import '../css/widget.css';
 
-// **********************************
-
-import Point   from 'ol/geom/Point.js';
-import Icon    from 'ol/style/Icon.js';
-import Feature from 'ol/Feature.js';
+// -------------------------------------
+import Point    from 'ol/geom/Point.js';
+import Icon     from 'ol/style/Icon.js';
+import Feature  from 'ol/Feature.js';
 import Geometry from 'ol/geom/Geometry';
-
-// currently unused:
-const iconStyle = new Style({
-  image: new Icon({
-    anchor: [0.5, 46],
-    anchorXUnits: 'fraction',
-    anchorYUnits: 'pixels',
-    src: 'https://openlayers.org/en/latest/examples/data/icon.png'
-  }),
-});
-
-// **********************************
+// -------------------------------------
 
 export class OpenLayersVectorModel extends LayerModel {
   defaults() {
@@ -67,22 +55,19 @@ export class OpenLayersVectorView extends LayerView {
   }
   initVectorLayer() {
 
-    let foo = this.model.get('data');
+    let model_data = this.model.get('data');
 
     let my_iconFeature = new Feature({
-          geometry: new Point(foo['data']),
+          geometry: new Point(model_data['geom']),
           name: 'SPI',
           population: 4000,
-          rainfall: 500,
         });
+
+    // my_iconFeature.setStyle(iconStyle);
 
     this.vectorSource = new VectorSource({
        features: [ new Feature<Geometry>(my_iconFeature.getGeometry()) ],
     });
-
-    //hers: this.vectorSource = new VectorSource({
-    //hers:   features: new GeoJSON().readFeatures(this.model.get('data')),
-    //hers: });
 
     this.vectorLayer = new VectorLayer({
       source: this.vectorSource,
@@ -92,6 +77,36 @@ export class OpenLayersVectorView extends LayerView {
 
   createStyleFunction(): StyleFunction {
     const modelStyle = this.model.get('style') || {};
+    // console.log('pointFillColor =', modelStyle.pointFillColor);
+        // ===========================================
+        const imageStyle = modelStyle.image;
+        let my_image: Icon | CircleStyle;
+        // let myBoolean: string | boolean;
+        if (imageStyle !== undefined) {
+            console.log('modelStyle=', modelStyle);
+            console.log('image:    =', modelStyle.image);
+            console.log('image.src:   =', imageStyle.src);
+            console.log('image.anchor:=', imageStyle.anchor);
+
+          my_image =  new Icon({
+              anchor: [0.5, 46],
+              anchorXUnits: 'fraction',
+              anchorYUnits: 'pixels',
+              src: imageStyle.src,
+           })
+        } else {
+          my_image = new CircleStyle({
+            radius: modelStyle.pointRadius || 5,
+            fill: new Fill({
+              color: modelStyle.pointFillColor || '#0000ff',
+            }),
+            stroke: new Stroke({
+              color: modelStyle.pointStrokeColor || '#ffff00',
+              width: modelStyle.pointStrokeWidth || 1,
+            }),
+          })
+        }
+        // ===========================================
     return (feature) => {
       return new Style({
         stroke: new Stroke({
@@ -99,18 +114,9 @@ export class OpenLayersVectorView extends LayerView {
           width: modelStyle.strokeWidth || 1.25,
         }),
         fill: new Fill({
-          color: modelStyle.fillColor || 'rgba(255, 255, 255, 0.4)',
+          color: modelStyle.fillColor || 'rgba(127, 255, 127, 0.4)',
         }),
-        image: new CircleStyle({
-          radius: modelStyle.pointRadius || 5,
-          fill: new Fill({
-            color: modelStyle.pointFillColor || '#FF0000',
-          }),
-          stroke: new Stroke({
-            color: modelStyle.pointStrokeColor || '#000000',
-            width: modelStyle.pointStrokeWidth || 1,
-          }),
-        }),
+        image: my_image
       });
     };
   }
@@ -131,9 +137,10 @@ export class OpenLayersVectorView extends LayerView {
   }
   updateData() {
     this.vectorSource.clear();
-    // HELP this.vectorSource.addFeatures(
-    // HELP   new Vector().readFeatures(this.model.get('data')),
-    // HELP );
+    // this.vectorSource.addFeatures(
+    //    new Feature<Geometry>(my_iconFeature.getGeometry()),
+    // old   new Vector().readFeatures(this.model.get('data')),
+    // );
   }
 
   modelEvents() {
