@@ -89,10 +89,17 @@ export class OpenLayersVectorView extends LayerView {
             console.log('image.anchor:=', imageStyle.anchor);
 
           my_image =  new Icon({
-              anchor: [0.5, 46],
-              anchorXUnits: 'fraction',
-              anchorYUnits: 'pixels',
-              src: imageStyle.src,
+              width       : imageStyle.width, //        || undefined,
+              height      : imageStyle.height, //       || undefined,
+              // size        : imageStyle.size         || undefined,
+              // offset      : imageStyle.offset       || [0,0],
+              // scale       : imageStyle.scale        || 1,
+              // opacity     : imageStyle.opacity      || 1,
+
+              // anchor      : imageStyle.anchor       || [0.5, 46],
+              // anchorXUnits: imageStyle.anchorXUnits || 'fraction',
+              // anchorYUnits: imageStyle.anchorYUnits || 'pixels',
+              src         : imageStyle.src          || 'marker.png',  // <<<<<<<<<<<<<<<
            })
         } else {
           my_image = new CircleStyle({
