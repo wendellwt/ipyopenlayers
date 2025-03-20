@@ -1,19 +1,12 @@
-// Copyright (c) QuantStack
-// Distributed under the terms of the Modified BSD License.
-//
 import { StyleFunction } from 'ol/style/Style';
 import { DOMWidgetModel, ISerializers } from '@jupyter-widgets/base';
 import 'ol/ol.css';
 import { MODULE_NAME, MODULE_VERSION } from './version';
 import '../css/widget.css';
-// no vector available: import GeoJSON from 'ol/format/GeoJSON.js'; // wt ????
-// FIXME import Feature from 'ol/Feature.js'; // wt ????
-//
 import { Circle as CircleStyle, Fill, Stroke, Style } from 'ol/style.js';
 import { Vector as VectorSource } from 'ol/source.js';
 import { Vector as VectorLayer  } from 'ol/layer.js';
 import { LayerModel, LayerView  } from './layer';
-
 
 // **********************************
 
@@ -22,14 +15,7 @@ import Icon    from 'ol/style/Icon.js';
 import Feature from 'ol/Feature.js';
 import Geometry from 'ol/geom/Geometry';
 
-const iconFeature = new Feature({
-  geometry: new Point([ -77.16, 39.16]),  // GAI
-	  // new Point([0, 0]),
-  name: 'GAI',
-  population: 4000,
-  rainfall: 500,
-});
-
+// currently unused:
 const iconStyle = new Style({
   image: new Icon({
     anchor: [0.5, 46],
@@ -39,7 +25,6 @@ const iconStyle = new Style({
   }),
 });
 
-iconFeature.setStyle(iconStyle);
 // **********************************
 
 export class OpenLayersVectorModel extends LayerModel {
@@ -82,10 +67,7 @@ export class OpenLayersVectorView extends LayerView {
   }
   initVectorLayer() {
 
-    console.log("initVectorLayer");
     let foo = this.model.get('data');
-    console.log("initVectorLayer:", foo);
-    console.log("initVectorLayer:", foo['data']);
 
     let my_iconFeature = new Feature({
           geometry: new Point(foo['data']),
@@ -149,9 +131,9 @@ export class OpenLayersVectorView extends LayerView {
   }
   updateData() {
     this.vectorSource.clear();
-    // HELP;this.vectorSource.addFeatures(
-    // HELP;  FIXMEnew Vector().readFeatures(this.model.get('data')),
-    // HELP;);
+    // HELP this.vectorSource.addFeatures(
+    // HELP   new Vector().readFeatures(this.model.get('data')),
+    // HELP );
   }
 
   modelEvents() {
