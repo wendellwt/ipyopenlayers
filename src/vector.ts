@@ -76,13 +76,17 @@ export class OpenLayersVectorView extends LayerView {
   }
 
   createStyleFunction(): StyleFunction {
+    console.log('createStyleFunction.a');
     const modelStyle = this.model.get('style') || {};
+    console.log('createStyleFunction.b');
     // console.log('pointFillColor =', modelStyle.pointFillColor);
         // ===========================================
-        const imageStyle = modelStyle.image;
+        let imageStyle = modelStyle.image;
         let my_image: Icon | CircleStyle;
+        console.log('createStyleFunction.c');
         // let myBoolean: string | boolean;
         if (imageStyle !== undefined) {
+            console.log('createStyleFunction.d');
             console.log('modelStyle=', modelStyle);
             console.log('image:    =', modelStyle.image);
             console.log('image.src:   =', imageStyle.src);
@@ -101,7 +105,9 @@ export class OpenLayersVectorView extends LayerView {
               // anchorYUnits: imageStyle.anchorYUnits || 'pixels',
               src         : imageStyle.src          || 'marker.png',  // <<<<<<<<<<<<<<<
            })
+           console.log('createStyleFunction.e');
         } else {
+          console.log('createStyleFunction.f');
           my_image = new CircleStyle({
             radius: modelStyle.pointRadius || 5,
             fill: new Fill({
@@ -112,8 +118,10 @@ export class OpenLayersVectorView extends LayerView {
               width: modelStyle.pointStrokeWidth || 1,
             }),
           })
+          console.log('createStyleFunction.g');
         }
         // ===========================================
+    console.log('createStyleFunction.z');
     return (feature) => {
       return new Style({
         stroke: new Stroke({
@@ -144,10 +152,19 @@ export class OpenLayersVectorView extends LayerView {
   }
   updateData() {
     this.vectorSource.clear();
-    // this.vectorSource.addFeatures(
-    //    new Feature<Geometry>(my_iconFeature.getGeometry()),
-    // old   new Vector().readFeatures(this.model.get('data')),
-    // );
+
+    let model_data = this.model.get('data');
+    // probably wrong.  shouldn't this just change the geometry
+    // of the existing element???
+    let my_iconFeature = new Feature({
+          geometry: new Point(model_data['geom']),
+          name: 'SPI',
+          population: 4000,
+        });
+
+    this.vectorSource.addFeatures(
+       [ new Feature<Geometry>(my_iconFeature.getGeometry()) ],
+    );
   }
 
   modelEvents() {
