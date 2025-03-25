@@ -13,7 +13,7 @@ readme = "README.md"
 license = { file = "LICENSE.txt" }
 requires-python = ">=3.9"
 authors = [
-    { name = "wendellwt", email = "info@me.com" },
+    { name = "QuantStack", email = "me@me.com" },
 ]
 keywords = [
     "IPython",
@@ -59,7 +59,7 @@ test = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/wendellwt/ipyopenlayers/"
+Homepage = "https://github.com/QuantStack/ipyopenlayers/"
 
 [tool.hatch.metadata]
 allow-direct-references = true

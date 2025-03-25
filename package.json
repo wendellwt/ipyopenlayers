@@ -13,20 +13,20 @@
     "dist/*.js",
     "css/*.css"
   ],
-  "homepage": "https://github.com/wendellwt/ipyopenlayers/",
+  "homepage": "https://github.com/QuantStack/ipyopenlayers/",
   "bugs": {
-    "url": "https://github.com/wendellwt/ipyopenlayers/issues"
+    "url": "https://github.com/QuantStack/ipyopenlayers/issues"
   },
   "license": "BSD-3-Clause",
   "author": {
-    "name": "wendellwt",
+    "name": "QuantStack",
     "email": "me@me.com"
   },
   "main": "lib/index.js",
   "types": "./lib/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wendellwt/ipyopenlayers/"
+    "url": "https://github.com/QuantStack/ipyopenlayers/"
   },
   "scripts": {
     "build": "jlpm run build:lib && jlpm run build:nbextension && jlpm run build:labextension:dev",
