@@ -108,9 +108,6 @@ class GeoJSON(Layer):
     style = Dict({}).tag(sync=True)
     visible = Bool(True).tag(sync=True)
 
-# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% wt:
 class Vector(Layer):
     """Vector class for Vector data layers.
 
@@ -129,8 +126,6 @@ class Vector(Layer):
     data        = Dict({}).tag(sync=True)
     style       = Dict({}).tag(sync=True)
     visible     = Bool(True).tag(sync=True)
-
-# $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
 class HeatmapLayer(Layer):
