@@ -17,7 +17,6 @@ import Geometry from 'ol/geom/Geometry';
 
 export class OpenLayersVectorModel extends LayerModel {
   defaults() {
-    console.log('OpenLayersVectorModel.defaults()')
     return {
       ...super.defaults(),
       _model_name:           OpenLayersVectorModel.model_name,
@@ -35,10 +34,10 @@ export class OpenLayersVectorModel extends LayerModel {
     // Add any extra serializers here
   };
 
-  static model_name           = 'OpenLayersVectorModel'; // wt
+  static model_name           = 'OpenLayersVectorModel';
   static model_module         = MODULE_NAME;
   static model_module_version = MODULE_VERSION;
-  static view_name            = 'OpenLayersVectorView';   // wt
+  static view_name            = 'OpenLayersVectorView';
   static view_module          = MODULE_NAME;
   static view_module_version  = MODULE_VERSION;
 }
@@ -76,38 +75,34 @@ export class OpenLayersVectorView extends LayerView {
   }
 
   createStyleFunction(): StyleFunction {
-    console.log('createStyleFunction.a');
+
     const modelStyle = this.model.get('style') || {};
-    console.log('createStyleFunction.b');
-    // console.log('pointFillColor =', modelStyle.pointFillColor);
-        // ===========================================
+
         let imageStyle = modelStyle.image;
+
         let my_image: Icon | CircleStyle;
-        console.log('createStyleFunction.c');
-        // let myBoolean: string | boolean;
+
         if (imageStyle !== undefined) {
-            console.log('createStyleFunction.d');
-            console.log('modelStyle=', modelStyle);
-            console.log('image:    =', modelStyle.image);
-            console.log('image.src:   =', imageStyle.src);
-            console.log('image.anchor:=', imageStyle.anchor);
+            // console.log('createStyleFunction.d');
+            // console.log('modelStyle=', modelStyle);
+            // console.log('image:    =', modelStyle.image);
+            // console.log('image.src:   =', imageStyle.src);
+            // console.log('image.anchor:=', imageStyle.anchor);
 
           my_image =  new Icon({
-              width       : imageStyle.width, //        || undefined,
-              height      : imageStyle.height, //       || undefined,
-              // size        : imageStyle.size         || undefined,
-              // offset      : imageStyle.offset       || [0,0],
-              // scale       : imageStyle.scale        || 1,
-              // opacity     : imageStyle.opacity      || 1,
+              width       : imageStyle.width,       || 100,
+              height      : imageStyle.height,      || 100,
+              size        : imageStyle.size         || 100,
+              offset      : imageStyle.offset       || [0,0],
+              scale       : imageStyle.scale        || 1,
+              opacity     : imageStyle.opacity      || 1,
 
-              // anchor      : imageStyle.anchor       || [0.5, 46],
-              // anchorXUnits: imageStyle.anchorXUnits || 'fraction',
-              // anchorYUnits: imageStyle.anchorYUnits || 'pixels',
-              src         : imageStyle.src          || 'marker.png',  // <<<<<<<<<<<<<<<
+              anchor      : imageStyle.anchor       || [0.5, 46],
+              anchorXUnits: imageStyle.anchorXUnits || 'fraction',
+              anchorYUnits: imageStyle.anchorYUnits || 'pixels',
+              src         : imageStyle.src          || 'https://openlayers.org/en/latest/examples/data/icon.png',
            })
-           console.log('createStyleFunction.e');
         } else {
-          console.log('createStyleFunction.f');
           my_image = new CircleStyle({
             radius: modelStyle.pointRadius || 5,
             fill: new Fill({
@@ -118,10 +113,8 @@ export class OpenLayersVectorView extends LayerView {
               width: modelStyle.pointStrokeWidth || 1,
             }),
           })
-          console.log('createStyleFunction.g');
         }
         // ===========================================
-    console.log('createStyleFunction.z');
     return (feature) => {
       return new Style({
         stroke: new Stroke({
@@ -141,7 +134,7 @@ export class OpenLayersVectorView extends LayerView {
   }
 
   invisibleStyle = new Style({
-    fill: new Fill({ color: 'rgba(0, 0, 0, 0)' }),
+    fill:   new Fill(  { color: 'rgba(0, 0, 0, 0)' }),
     stroke: new Stroke({ color: 'rgba(0, 0, 0, 0)', width: 0 }),
   });
   updateVisibility() {
@@ -154,12 +147,9 @@ export class OpenLayersVectorView extends LayerView {
     this.vectorSource.clear();
 
     let model_data = this.model.get('data');
-    // probably wrong.  shouldn't this just change the geometry
-    // of the existing element???
+    // shouldn't this just change the geometry of the existing element???
     let my_iconFeature = new Feature({
           geometry: new Point(model_data['geom']),
-          name: 'SPI',
-          population: 4000,
         });
 
     this.vectorSource.addFeatures(
