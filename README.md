@@ -1,8 +1,5 @@
 # ipyopenlayers
 
-This is a fork of [ipyopenlayers-0.2.1](https://github.com/QuantStack/ipyopenlayers)
-with Vector types added.
-
 [![Documentation](http://readthedocs.org/projects/ipyopenlayers/badge/?version=latest)](https://ipyopenlayers.readthedocs.io/en/latest/?badge=latest)
 [![JupyterLite Badge](https://jupyterlite.rtfd.io/en/latest/_static/badge.svg)](https://ipyopenlayers.readthedocs.io/en/latest/lite/lab/index.html)
 
